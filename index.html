@@ -1359,13 +1359,14 @@
           <div class="qr-card">
             <div class="eyebrow">Paso 3 de 3</div>
             <h2 style="font-size: 22px; font-weight: 600">
-              Tu credencial QR (no apta para viajar)
+              Tu credencial QR <br />(no apta para viajar)
             </h2>
             <p class="muted">
               Escaneá o imprimí este código. Al leerlo, se abre tu beneficio con
-              los datos ya cargados. Presentá este QR en la empresa de
-              transporte. La emisión del pasaje se realizará a través de los
-              medios habituales de la empresa.
+              los datos ya cargados. <br />
+              Presentá este QR en la empresa de transporte. <br />
+              La emisión del pasaje se realizará a través de los medios
+              habituales de la empresa.
             </p>
             <div class="qr-frame"><div id="qrcode"></div></div>
             <div class="qr-name" id="q-dni">—</div>
@@ -1988,6 +1989,10 @@
 
       function goStep(n, fromTab) {
         if (fromTab && n > maxStep) {
+          if (n === 3 && current && MUNI_DIGITAL.includes(current.muni)) {
+            toast('Podés viajar con los medios vigentes, no necesitás generar un QR');
+            return;
+          }
           toast('Completá los pasos anteriores primero');
           return;
         }
