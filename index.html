@@ -1327,7 +1327,7 @@
               </div>
             </div>
             <button class="btn azul" id="btn-qr" onclick="goStep(3)">
-              Generar QR
+              QR
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -1342,6 +1342,7 @@
                   stroke-linecap="round"
                 />
               </svg>
+              Para trámite en Empresa
             </button>
             <button
               class="btn secondary"
@@ -1955,7 +1956,11 @@
           p.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${med.ic}</svg>${med.t}`;
           m.appendChild(p);
         });
-        document.getElementById('btn-qr').style.display = MUNI_DIGITAL.includes(d.muni) ? 'none' : '';
+        document.getElementById('btn-qr').style.display = MUNI_DIGITAL.includes(
+          d.muni,
+        )
+          ? 'none'
+          : '';
       }
 
       function buildQRPayload(d) {
