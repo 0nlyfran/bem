@@ -1192,7 +1192,7 @@
         </button>
         <button class="step" data-step="3" onclick="goStep(3, true)">
           <div class="num" id="n3">3</div>
-          <div class="lbl">Tu código<br />QR</div>
+          <div class="lbl" id="lbl3"></div>
         </button>
       </nav>
       <div class="progress-track">
@@ -1397,6 +1397,22 @@
               </svg>
               Para trámite en Empresa
             </button>
+            <button class="btn azul" id="btn-viaja" onclick="goStep(3)" style="display:none; margin-top:11px">
+              Viaja
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect x="2" y="7" width="20" height="13" rx="2" />
+                <path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
+                <line x1="12" y1="12" x2="12.01" y2="12" stroke-width="3" />
+                <path d="M2 12h20" />
+              </svg>
+            </button>
             <button
               class="btn secondary"
               style="margin-top: 11px"
@@ -1411,38 +1427,60 @@
         <section class="panel" id="panel3">
           <div class="qr-card">
             <div class="eyebrow">Paso 3 de 3</div>
-            <h2 style="font-size: 22px; font-weight: 600">
-              Tu credencial QR <br />(no apta para viajar)
-            </h2>
-            <p class="muted">
-              Escaneá o imprimí este código. Al leerlo, se abre tu beneficio con
-              los datos ya cargados. <br />
-              Presentá este QR en la empresa de transporte. <br />
-              La emisión del pasaje se realizará a través de los medios
-              habituales de la empresa.
-            </p>
-            <div class="qr-frame"><div id="qrcode"></div></div>
-            <div class="qr-name" id="q-dni">—</div>
-            <div class="qr-sub" id="q-sub">—</div>
-            <div class="qr-meta" id="q-meta"></div>
-            <div class="qr-actions">
-              <button class="btn azul" onclick="window.print()">
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2"
-                    stroke-linecap="round"
-                  />
-                  <rect x="6" y="14" width="12" height="7" rx="1" />
-                </svg>
-                Imprimir
-              </button>
-              <button class="btn secondary" onclick="resetAll()">Nuevo</button>
+
+            <!-- Vista QR (municipios no digitales) -->
+            <div id="view-qr">
+              <h2 style="font-size: 22px; font-weight: 600">
+                Tu credencial QR <br />(no apta para viajar)
+              </h2>
+              <p class="muted">
+                Escaneá o imprimí este código. Al leerlo, se abre tu beneficio con
+                los datos ya cargados. <br />
+                Presentá este QR en la empresa de transporte. <br />
+                La emisión del pasaje se realizará a través de los medios
+                habituales de la empresa.
+              </p>
+              <div class="qr-frame"><div id="qrcode"></div></div>
+              <div class="qr-name" id="q-dni">—</div>
+              <div class="qr-sub" id="q-sub">—</div>
+              <div class="qr-meta" id="q-meta"></div>
+              <div class="qr-actions">
+                <button class="btn azul" onclick="window.print()">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2"
+                      stroke-linecap="round"
+                    />
+                    <rect x="6" y="14" width="12" height="7" rx="1" />
+                  </svg>
+                  Imprimir
+                </button>
+                <button class="btn secondary" onclick="resetAll()">Nuevo</button>
+              </div>
             </div>
+
+            <!-- Vista Viaja (municipios digitales) -->
+            <div id="view-viaja" style="display:none">
+              <h2 style="font-size: 22px; font-weight: 600">Viaja</h2>
+              <img
+                src="assets/medios.png"
+                alt="Medios de pago habilitados"
+                style="width:100%; border-radius:14px; margin:18px 0 10px; display:block"
+              />
+              <p class="muted" style="margin-top:8px">
+                Te subís al colectivo: usás uno de los medios de pago habilitados:
+                <strong>DNI Tarjeta</strong>, <strong>APP</strong> o <strong>Nueva SUBE</strong>
+              </p>
+              <div class="qr-actions" style="margin-top:18px">
+                <button class="btn secondary" onclick="resetAll()">Nuevo</button>
+              </div>
+            </div>
+
           </div>
         </section>
       </main>
@@ -2010,11 +2048,12 @@
           p.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${med.ic}</svg>${med.t}`;
           m.appendChild(p);
         });
-        document.getElementById('btn-qr').style.display = MUNI_DIGITAL.includes(
-          d.muni,
-        )
-          ? 'none'
-          : '';
+        const isDigital = MUNI_DIGITAL.includes(d.muni);
+        document.getElementById('btn-qr').style.display = isDigital ? 'none' : '';
+        document.getElementById('btn-viaja').style.display = isDigital ? '' : 'none';
+        document.getElementById('lbl3').innerHTML = isDigital
+          ? 'Viaja'
+          : 'Tu código<br />QR';
       }
 
       function buildQRPayload(d) {
@@ -2024,20 +2063,25 @@
       }
 
       function fillStep3(d) {
-        document.getElementById('qrcode').innerHTML = '';
-        new QRCode(document.getElementById('qrcode'), {
-          text: buildQRPayload(d),
-          width: 200,
-          height: 200,
-          colorDark: '#16202B',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.M,
-        });
-        document.getElementById('q-dni').textContent = 'DNI ' + d.dni;
-        document.getElementById('q-sub').textContent =
-          `${NIVELES[d.nivel]} · ${d.muni}`;
-        const meta = document.getElementById('q-meta');
-        meta.innerHTML = `<span>Ciclo 2026</span><span>${MUNI_DIGITAL.includes(d.muni) ? 'Medios digitales' : 'Trámite presencial'}</span>`;
+        const isDigital = MUNI_DIGITAL.includes(d.muni);
+        document.getElementById('view-qr').style.display = isDigital ? 'none' : '';
+        document.getElementById('view-viaja').style.display = isDigital ? '' : 'none';
+        if (!isDigital) {
+          document.getElementById('qrcode').innerHTML = '';
+          new QRCode(document.getElementById('qrcode'), {
+            text: buildQRPayload(d),
+            width: 200,
+            height: 200,
+            colorDark: '#16202B',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.M,
+          });
+          document.getElementById('q-dni').textContent = 'DNI ' + d.dni;
+          document.getElementById('q-sub').textContent =
+            `${NIVELES[d.nivel]} · ${d.muni}`;
+          const meta = document.getElementById('q-meta');
+          meta.innerHTML = `<span>Ciclo 2026</span><span>Trámite presencial</span>`;
+        }
       }
 
       function goStep(n, fromTab) {
@@ -2088,6 +2132,7 @@
         document.getElementById('dni').value = '';
         document.getElementById('dniWrap').classList.remove('err');
         document.getElementById('dniErr').classList.remove('show');
+        document.getElementById('lbl3').innerHTML = '';
         goStep(1);
       }
 
