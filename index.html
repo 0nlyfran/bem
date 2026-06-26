@@ -1,654 +1,2070 @@
 <!doctype html>
 <html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#E4002B">
-<title>Boleto Estudiantil Misionero</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<style>
-:root{
-  --rojo:#E4002B;        /* tierra colorada */
-  --rojo-d:#B30021;
-  --azul:#0070BA;        /* agua */
-  --celeste:#19A9E6;     /* cielo */
-  --celeste-soft:#E6F5FC;
-  --rojo-soft:#FDE8EC;
-  --tinta:#16202B;
-  --gris:#5C6A78;
-  --linea:#E7ECF1;
-  --blanco:#fff;
-  --bg:#F6F8FA;
-  --ok:#1E9E5A;
-  --radius:20px;
-  --shadow:0 10px 30px -12px rgba(20,40,70,.25);
-  --shadow-s:0 4px 14px -6px rgba(20,40,70,.22);
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0}
-body{
-  font-family:"Inter",system-ui,sans-serif;
-  color:var(--tinta);
-  background:var(--bg);
-  line-height:1.45;
-  min-height:100dvh;
-}
-h1,h2,h3,.display{font-family:"Fredoka",sans-serif;letter-spacing:-.01em;margin:0}
-button{font-family:inherit;cursor:pointer;border:0;background:none}
-input,select{font-family:inherit;font-size:16px}
-.app{max-width:460px;margin:0 auto;min-height:100dvh;background:var(--bg);position:relative;display:flex;flex-direction:column}
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#E4002B" />
+    <title>Boleto Estudiantil Misionero</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+      :root {
+        --rojo: #e4002b; /* tierra colorada */
+        --rojo-d: #b30021;
+        --azul: #0070ba; /* agua */
+        --celeste: #19a9e6; /* cielo */
+        --celeste-soft: #e6f5fc;
+        --rojo-soft: #fde8ec;
+        --tinta: #16202b;
+        --gris: #5c6a78;
+        --linea: #e7ecf1;
+        --blanco: #fff;
+        --bg: #f6f8fa;
+        --ok: #1e9e5a;
+        --radius: 20px;
+        --shadow: 0 10px 30px -12px rgba(20, 40, 70, 0.25);
+        --shadow-s: 0 4px 14px -6px rgba(20, 40, 70, 0.22);
+      }
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        color: var(--tinta);
+        background: var(--bg);
+        line-height: 1.45;
+        min-height: 100dvh;
+      }
+      h1,
+      h2,
+      h3,
+      .display {
+        font-family: 'Fredoka', sans-serif;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: 0;
+        background: none;
+      }
+      input,
+      select {
+        font-family: inherit;
+        font-size: 16px;
+      }
+      .app {
+        max-width: 460px;
+        margin: 0 auto;
+        min-height: 100dvh;
+        background: var(--bg);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
 
-/* ---------- Top bar ---------- */
-.topbar{
-  position:sticky;top:0;z-index:40;
-  background:linear-gradient(120deg,var(--rojo) 0%,var(--rojo-d) 55%,var(--azul) 140%);
-  color:#fff;padding:14px 16px calc(18px) 16px;
-  border-radius:0 0 26px 26px;box-shadow:var(--shadow-s);
-}
-.topbar-row{display:flex;align-items:center;gap:12px}
-.logo-m{
-  width:42px;height:42px;flex:0 0 auto;background:#fff;border-radius:13px;
-  display:grid;place-items:center;box-shadow:0 4px 12px -4px rgba(0,0,0,.3)
-}
-.logo-m svg{width:30px;height:30px}
-.brand h1{font-size:18px;font-weight:700;line-height:1.05}
-.brand p{margin:1px 0 0;font-size:11.5px;opacity:.92;font-weight:500;letter-spacing:.02em}
-.menu-btn{margin-left:auto;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.16);
-  display:grid;place-items:center;color:#fff;backdrop-filter:blur(4px)}
-.menu-btn svg{width:22px;height:22px}
-.lema{margin-top:11px;font-family:"Fredoka";font-weight:500;font-size:12.5px;opacity:.95;display:flex;align-items:center;gap:7px}
-.lema .leaf{width:15px;height:15px}
+      /* ---------- Top bar ---------- */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: linear-gradient(
+          120deg,
+          var(--rojo) 0%,
+          var(--rojo-d) 55%,
+          var(--azul) 140%
+        );
+        color: #fff;
+        padding: 14px 16px calc(18px) 16px;
+        border-radius: 0 0 26px 26px;
+        box-shadow: var(--shadow-s);
+      }
+      .topbar-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .logo-m {
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        background: #fff;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.3);
+      }
+      .logo-m svg {
+        width: 30px;
+        height: 30px;
+      }
+      .brand h1 {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .brand p {
+        margin: 1px 0 0;
+        font-size: 11.5px;
+        opacity: 0.92;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+      .menu-btn {
+        margin-left: auto;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.16);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        backdrop-filter: blur(4px);
+      }
+      .menu-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+      .lema {
+        margin-top: 11px;
+        font-family: 'Fredoka';
+        font-weight: 500;
+        font-size: 12.5px;
+        opacity: 0.95;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .lema .leaf {
+        width: 15px;
+        height: 15px;
+      }
 
-/* ---------- Stepper tabs ---------- */
-.stepper{display:flex;gap:8px;padding:16px 14px 4px}
-.step{
-  flex:1;background:var(--blanco);border-radius:16px;padding:11px 8px 10px;
-  display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;
-  box-shadow:var(--shadow-s);border:1.5px solid var(--linea);
-  transition:.28s cubic-bezier(.4,0,.2,1);opacity:.62}
-.step.done{opacity:1;border-color:transparent;cursor:pointer}
-.step.active{opacity:1;border-color:var(--rojo);transform:translateY(-2px);
-  box-shadow:0 12px 26px -12px rgba(228,0,43,.5)}
-.step .num{
-  width:30px;height:30px;border-radius:50%;display:grid;place-items:center;
-  font-family:"Fredoka";font-weight:700;font-size:15px;color:var(--gris);
-  background:var(--bg);transition:.28s}
-.step.active .num{background:var(--rojo);color:#fff;box-shadow:0 4px 10px -2px rgba(228,0,43,.5)}
-.step.done .num{background:var(--ok);color:#fff}
-.step .lbl{font-size:10.5px;font-weight:600;color:var(--gris);text-align:center;line-height:1.15}
-.step.active .lbl{color:var(--rojo)}
-.step.done .lbl{color:var(--tinta)}
-.step .num svg{width:16px;height:16px}
-.progress-track{height:4px;background:var(--linea);border-radius:99px;margin:10px 16px 2px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--rojo),var(--celeste));width:33%;
-  border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+      /* ---------- Stepper tabs ---------- */
+      .stepper {
+        display: flex;
+        gap: 8px;
+        padding: 16px 14px 4px;
+      }
+      .step {
+        flex: 1;
+        background: var(--blanco);
+        border-radius: 16px;
+        padding: 11px 8px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        position: relative;
+        box-shadow: var(--shadow-s);
+        border: 1.5px solid var(--linea);
+        transition: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0.62;
+      }
+      .step.done {
+        opacity: 1;
+        border-color: transparent;
+        cursor: pointer;
+      }
+      .step.active {
+        opacity: 1;
+        border-color: var(--rojo);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px -12px rgba(228, 0, 43, 0.5);
+      }
+      .step .num {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-family: 'Fredoka';
+        font-weight: 700;
+        font-size: 15px;
+        color: var(--gris);
+        background: var(--bg);
+        transition: 0.28s;
+      }
+      .step.active .num {
+        background: var(--rojo);
+        color: #fff;
+        box-shadow: 0 4px 10px -2px rgba(228, 0, 43, 0.5);
+      }
+      .step.done .num {
+        background: var(--ok);
+        color: #fff;
+      }
+      .step .lbl {
+        font-size: 10.5px;
+        font-weight: 600;
+        color: var(--gris);
+        text-align: center;
+        line-height: 1.15;
+      }
+      .step.active .lbl {
+        color: var(--rojo);
+      }
+      .step.done .lbl {
+        color: var(--tinta);
+      }
+      .step .num svg {
+        width: 16px;
+        height: 16px;
+      }
+      .progress-track {
+        height: 4px;
+        background: var(--linea);
+        border-radius: 99px;
+        margin: 10px 16px 2px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--rojo), var(--celeste));
+        width: 33%;
+        border-radius: 99px;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-/* ---------- Panels ---------- */
-.content{padding:14px 16px 30px;flex:1}
-.panel{display:none;animation:slideIn .4s cubic-bezier(.2,.7,.2,1)}
-.panel.show{display:block}
-@keyframes slideIn{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
-.card{background:var(--blanco);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 20px}
-.eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--rojo);margin-bottom:7px}
-.card h2{font-size:23px;font-weight:600;margin-bottom:6px}
-.muted{color:var(--gris);font-size:13.5px}
+      /* ---------- Panels ---------- */
+      .content {
+        padding: 14px 16px 30px;
+        flex: 1;
+      }
+      .panel {
+        display: none;
+        animation: slideIn 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .panel.show {
+        display: block;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(14px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .card {
+        background: var(--blanco);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 22px 20px;
+      }
+      .eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--rojo);
+        margin-bottom: 7px;
+      }
+      .card h2 {
+        font-size: 23px;
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      .muted {
+        color: var(--gris);
+        font-size: 13.5px;
+      }
 
-/* form */
-.field{margin-top:18px}
-.field label{display:block;font-size:12.5px;font-weight:600;color:var(--tinta);margin-bottom:6px}
-.input-wrap{position:relative}
-.input-wrap .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gris);width:20px;height:20px}
-input[type=text],input[type=tel],select{
-  width:100%;padding:15px 14px 15px 44px;border:1.6px solid var(--linea);border-radius:14px;
-  background:#fff;color:var(--tinta);transition:.2s;font-weight:500}
-input:focus,select:focus{outline:none;border-color:var(--celeste);box-shadow:0 0 0 4px var(--celeste-soft)}
-.input-wrap.err input{border-color:var(--rojo);box-shadow:0 0 0 4px var(--rojo-soft)}
-.hint{font-size:12px;color:var(--gris);margin-top:7px}
-.err-msg{font-size:12px;color:var(--rojo);font-weight:600;margin-top:7px;display:none}
-.err-msg.show{display:block}
+      /* form */
+      .field {
+        margin-top: 18px;
+      }
+      .field label {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: var(--tinta);
+        margin-bottom: 6px;
+      }
+      .input-wrap {
+        position: relative;
+      }
+      .input-wrap .ic {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gris);
+        width: 20px;
+        height: 20px;
+      }
+      input[type='text'],
+      input[type='tel'],
+      select {
+        width: 100%;
+        padding: 15px 14px 15px 44px;
+        border: 1.6px solid var(--linea);
+        border-radius: 14px;
+        background: #fff;
+        color: var(--tinta);
+        transition: 0.2s;
+        font-weight: 500;
+      }
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--celeste);
+        box-shadow: 0 0 0 4px var(--celeste-soft);
+      }
+      .input-wrap.err input {
+        border-color: var(--rojo);
+        box-shadow: 0 0 0 4px var(--rojo-soft);
+      }
+      .hint {
+        font-size: 12px;
+        color: var(--gris);
+        margin-top: 7px;
+      }
+      .err-msg {
+        font-size: 12px;
+        color: var(--rojo);
+        font-weight: 600;
+        margin-top: 7px;
+        visibility: hidden;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .err-msg.show {
+        visibility: visible;
+        opacity: 1;
+      }
 
-.btn{
-  width:100%;margin-top:22px;padding:16px;border-radius:15px;font-family:"Fredoka";font-weight:600;
-  font-size:16px;color:#fff;background:linear-gradient(120deg,var(--rojo),var(--rojo-d));
-  display:flex;align-items:center;justify-content:center;gap:9px;
-  box-shadow:0 10px 22px -10px rgba(228,0,43,.6);transition:.18s}
-.btn:active{transform:translateY(1px) scale(.99)}
-.btn.secondary{background:#fff;color:var(--rojo);border:1.6px solid var(--rojo);box-shadow:none}
-.btn.azul{background:linear-gradient(120deg,var(--azul),var(--celeste));box-shadow:0 10px 22px -10px rgba(0,112,186,.55)}
-.btn svg{width:19px;height:19px}
+      .btn {
+        width: 100%;
+        margin-top: 22px;
+        padding: 16px;
+        border-radius: 15px;
+        font-family: 'Fredoka';
+        font-weight: 600;
+        font-size: 16px;
+        color: #fff;
+        background: linear-gradient(120deg, var(--rojo), var(--rojo-d));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        box-shadow: 0 10px 22px -10px rgba(228, 0, 43, 0.6);
+        transition: 0.18s;
+      }
+      .btn:active {
+        transform: translateY(1px) scale(0.99);
+      }
+      .btn.secondary {
+        background: #fff;
+        color: var(--rojo);
+        border: 1.6px solid var(--rojo);
+        box-shadow: none;
+      }
+      .btn.azul {
+        background: linear-gradient(120deg, var(--azul), var(--celeste));
+        box-shadow: 0 10px 22px -10px rgba(0, 112, 186, 0.55);
+      }
+      .btn svg {
+        width: 19px;
+        height: 19px;
+      }
 
-.samples{margin-top:16px;background:var(--celeste-soft);border-radius:14px;padding:13px 14px}
-.samples .st{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--azul);display:flex;align-items:center;gap:6px}
-.samples .st svg{width:14px;height:14px}
-.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
-.chip{background:#fff;border:1.4px solid #CDE8F6;color:var(--azul);font-size:12px;font-weight:600;
-  padding:7px 11px;border-radius:11px;transition:.15s}
-.chip b{color:var(--tinta)}
-.chip:active{transform:scale(.95);background:var(--celeste);color:#fff}
+      .samples {
+        margin-top: 16px;
+        background: var(--celeste-soft);
+        border-radius: 14px;
+        padding: 13px 14px;
+      }
+      .samples .st {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--azul);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .samples .st svg {
+        width: 14px;
+        height: 14px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 10px;
+      }
+      .chip {
+        background: #fff;
+        border: 1.4px solid #cde8f6;
+        color: var(--azul);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 7px 11px;
+        border-radius: 11px;
+        transition: 0.15s;
+      }
+      .chip b {
+        color: var(--tinta);
+      }
+      .chip:active {
+        transform: scale(0.95);
+        background: var(--celeste);
+        color: #fff;
+      }
 
-/* ---------- Resultado paso 2 ---------- */
-.result-hero{
-  background:linear-gradient(125deg,var(--rojo),var(--rojo-d) 60%,#8c0019);color:#fff;
-  border-radius:var(--radius) var(--radius) 0 0;padding:22px 20px 24px;position:relative;overflow:hidden}
-.result-hero::after{content:"";position:absolute;right:-40px;bottom:-50px;width:160px;height:160px;
-  border-radius:50%;background:rgba(255,255,255,.08)}
-.result-hero .tag{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);
-  padding:6px 11px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
-.result-hero .tag svg{width:13px;height:13px}
-.result-hero h2{font-size:25px;font-weight:600;margin-top:13px;line-height:1.1}
-.result-hero .dni{font-size:13px;opacity:.92;margin-top:4px;font-weight:500}
-.detail-card{background:#fff;border-radius:0 0 var(--radius) var(--radius);box-shadow:var(--shadow);
-  margin-top:-2px;padding:6px 20px 20px;position:relative;z-index:2}
-.drow{display:flex;align-items:flex-start;gap:13px;padding:15px 0;border-bottom:1px solid var(--linea)}
-.drow:last-child{border-bottom:0}
-.drow .dic{width:38px;height:38px;flex:0 0 auto;border-radius:11px;display:grid;place-items:center;
-  background:var(--celeste-soft);color:var(--azul)}
-.drow.r .dic{background:var(--rojo-soft);color:var(--rojo)}
-.drow .dic svg{width:20px;height:20px}
-.drow .dk{font-size:11.5px;color:var(--gris);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.drow .dv{font-size:15px;font-weight:600;margin-top:2px}
-.media-list{display:flex;flex-wrap:wrap;gap:7px;margin-top:7px}
-.media-pill{font-size:12px;font-weight:600;padding:6px 10px;border-radius:9px;background:var(--celeste-soft);
-  color:var(--azul);display:inline-flex;align-items:center;gap:5px}
-.media-pill svg{width:13px;height:13px}
-.media-pill.warn{background:#FFF3E0;color:#C97A00}
-.vig-badge{display:inline-flex;align-items:center;gap:6px;background:#E8F8EE;color:var(--ok);
-  font-weight:700;font-size:13px;padding:7px 12px;border-radius:10px;margin-top:3px}
-.vig-badge svg{width:15px;height:15px}
+      /* ---------- Resultado paso 2 ---------- */
+      .result-hero {
+        background: linear-gradient(125deg, var(--ok), #167a45 60%, #0e5c35);
+        color: #fff;
+        border-radius: var(--radius) var(--radius) 0 0;
+        padding: 22px 20px 24px;
+        position: relative;
+        overflow: hidden;
+      }
+      .result-hero::after {
+        content: '';
+        position: absolute;
+        right: -40px;
+        bottom: -50px;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .result-hero .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.18);
+        padding: 6px 11px;
+        border-radius: 99px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+      .result-hero .tag svg {
+        width: 13px;
+        height: 13px;
+      }
+      .result-hero h2 {
+        font-size: 25px;
+        font-weight: 600;
+        margin-top: 13px;
+        line-height: 1.1;
+      }
+      .result-hero .dni {
+        font-size: 13px;
+        opacity: 0.92;
+        margin-top: 4px;
+        font-weight: 500;
+      }
+      .detail-card {
+        background: #fff;
+        border-radius: 0 0 var(--radius) var(--radius);
+        box-shadow: var(--shadow);
+        margin-top: -2px;
+        padding: 6px 20px 20px;
+        position: relative;
+        z-index: 2;
+      }
+      .drow {
+        display: flex;
+        align-items: flex-start;
+        gap: 13px;
+        padding: 15px 0;
+        border-bottom: 1px solid var(--linea);
+      }
+      .drow:last-child {
+        border-bottom: 0;
+      }
+      .drow .dic {
+        width: 38px;
+        height: 38px;
+        flex: 0 0 auto;
+        border-radius: 11px;
+        display: grid;
+        place-items: center;
+        background: var(--celeste-soft);
+        color: var(--azul);
+      }
+      .drow.r .dic {
+        background: var(--rojo-soft);
+        color: var(--rojo);
+      }
+      .drow .dic svg {
+        width: 20px;
+        height: 20px;
+      }
+      .drow .dk {
+        font-size: 11.5px;
+        color: var(--gris);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .drow .dv {
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 2px;
+      }
+      .media-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-top: 7px;
+      }
+      .media-pill {
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 10px;
+        border-radius: 9px;
+        background: var(--celeste-soft);
+        color: var(--azul);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .media-pill svg {
+        width: 13px;
+        height: 13px;
+      }
+      .media-pill.warn {
+        background: #fff3e0;
+        color: #c97a00;
+      }
+      .vig-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #e8f8ee;
+        color: var(--ok);
+        font-weight: 700;
+        font-size: 13px;
+        padding: 7px 12px;
+        border-radius: 10px;
+        margin-top: 3px;
+      }
+      .vig-badge svg {
+        width: 15px;
+        height: 15px;
+      }
 
-/* ---------- QR paso 3 ---------- */
-.qr-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:24px 20px;text-align:center}
-.qr-frame{margin:18px auto 6px;width:230px;height:230px;background:#fff;border-radius:20px;
-  border:3px solid var(--rojo);padding:14px;display:grid;place-items:center;position:relative;box-shadow:var(--shadow-s)}
-.qr-frame::before,.qr-frame::after{content:"";position:absolute;width:26px;height:26px;border:3px solid var(--celeste)}
-.qr-frame::before{top:-3px;left:-3px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
-.qr-frame::after{bottom:-3px;right:-3px;border-left:0;border-top:0;border-radius:0 0 8px 0}
-#qrcode img,#qrcode canvas{border-radius:8px}
-.qr-name{font-family:"Fredoka";font-weight:600;font-size:18px;margin-top:14px}
-.qr-sub{font-size:13px;color:var(--gris);margin-top:2px}
-.qr-meta{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:13px}
-.qr-meta span{font-size:11.5px;font-weight:600;background:var(--bg);padding:6px 10px;border-radius:9px;color:var(--tinta)}
-.qr-actions{display:flex;gap:10px;margin-top:18px}
-.qr-actions .btn{margin-top:0}
+      /* ---------- QR paso 3 ---------- */
+      .qr-card {
+        background: #fff;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 24px 20px;
+        text-align: center;
+      }
+      .qr-frame {
+        margin: 18px auto 6px;
+        width: 230px;
+        height: 230px;
+        background: #fff;
+        border-radius: 20px;
+        border: 3px solid var(--rojo);
+        padding: 14px;
+        display: grid;
+        place-items: center;
+        position: relative;
+        box-shadow: var(--shadow-s);
+      }
+      .qr-frame::before,
+      .qr-frame::after {
+        content: '';
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border: 3px solid var(--celeste);
+      }
+      .qr-frame::before {
+        top: -3px;
+        left: -3px;
+        border-right: 0;
+        border-bottom: 0;
+        border-radius: 8px 0 0 0;
+      }
+      .qr-frame::after {
+        bottom: -3px;
+        right: -3px;
+        border-left: 0;
+        border-top: 0;
+        border-radius: 0 0 8px 0;
+      }
+      #qrcode img,
+      #qrcode canvas {
+        border-radius: 8px;
+      }
+      .qr-name {
+        font-family: 'Fredoka';
+        font-weight: 600;
+        font-size: 18px;
+        margin-top: 14px;
+      }
+      .qr-sub {
+        font-size: 13px;
+        color: var(--gris);
+        margin-top: 2px;
+      }
+      .qr-meta {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 13px;
+      }
+      .qr-meta span {
+        font-size: 11.5px;
+        font-weight: 600;
+        background: var(--bg);
+        padding: 6px 10px;
+        border-radius: 9px;
+        color: var(--tinta);
+      }
+      .qr-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 18px;
+      }
+      .qr-actions .btn {
+        margin-top: 0;
+      }
 
-/* ---------- Bottom nav ---------- */
-.botnav{position:sticky;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--linea);
-  display:flex;padding:9px 8px calc(9px + env(safe-area-inset-bottom));gap:4px;box-shadow:0 -6px 20px -12px rgba(20,40,70,.2)}
-.botnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--gris);
-  font-size:10.5px;font-weight:600;padding:5px 2px;border-radius:12px}
-.botnav button svg{width:22px;height:22px}
-.botnav button.on{color:var(--rojo)}
-.botnav button.on svg{transform:translateY(-1px)}
+      /* ---------- Bottom nav ---------- */
+      .botnav {
+        position: sticky;
+        bottom: 0;
+        z-index: 30;
+        background: #fff;
+        border-top: 1px solid var(--linea);
+        display: flex;
+        padding: 9px 8px calc(9px + env(safe-area-inset-bottom));
+        gap: 4px;
+        box-shadow: 0 -6px 20px -12px rgba(20, 40, 70, 0.2);
+      }
+      .botnav button {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        color: var(--gris);
+        font-size: 10.5px;
+        font-weight: 600;
+        padding: 5px 2px;
+        border-radius: 12px;
+      }
+      .botnav button svg {
+        width: 22px;
+        height: 22px;
+      }
+      .botnav button.on {
+        color: var(--rojo);
+      }
+      .botnav button.on svg {
+        transform: translateY(-1px);
+      }
 
-/* ---------- Overlays (FAQ / Backoffice / Menu) ---------- */
-.sheet{position:fixed;inset:0;z-index:60;display:none}
-.sheet.show{display:block}
-.sheet-bg{position:absolute;inset:0;background:rgba(15,25,40,.45);backdrop-filter:blur(2px);animation:fade .25s}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.sheet-panel{position:absolute;left:0;right:0;bottom:0;max-width:460px;margin:0 auto;background:var(--bg);
-  border-radius:24px 24px 0 0;max-height:92dvh;overflow-y:auto;animation:up .32s cubic-bezier(.2,.8,.2,1);
-  padding-bottom:calc(24px + env(safe-area-inset-bottom))}
-@keyframes up{from{transform:translateY(100%)}to{transform:none}}
-.sheet-head{position:sticky;top:0;background:var(--bg);padding:16px 18px 12px;display:flex;align-items:center;gap:12px;z-index:2;border-bottom:1px solid var(--linea)}
-.sheet-head h2{font-size:19px;font-weight:600;flex:1}
-.sheet-head .close{width:36px;height:36px;border-radius:11px;background:#fff;display:grid;place-items:center;color:var(--tinta);box-shadow:var(--shadow-s)}
-.sheet-head .close svg{width:20px;height:20px}
-.sheet-body{padding:16px 16px 0}
+      /* ---------- Overlays (FAQ / Backoffice / Menu) ---------- */
+      .sheet {
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        display: none;
+      }
+      .sheet.show {
+        display: block;
+      }
+      .sheet-bg {
+        position: absolute;
+        inset: 0;
+        background: rgba(15, 25, 40, 0.45);
+        backdrop-filter: blur(2px);
+        animation: fade 0.25s;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      .sheet-panel {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 460px;
+        margin: 0 auto;
+        background: var(--bg);
+        border-radius: 24px 24px 0 0;
+        max-height: 92dvh;
+        overflow-y: auto;
+        animation: up 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+        padding-bottom: calc(24px + env(safe-area-inset-bottom));
+      }
+      @keyframes up {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: none;
+        }
+      }
+      .sheet-head {
+        position: sticky;
+        top: 0;
+        background: var(--bg);
+        padding: 16px 18px 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        z-index: 2;
+        border-bottom: 1px solid var(--linea);
+      }
+      .sheet-head h2 {
+        font-size: 19px;
+        font-weight: 600;
+        flex: 1;
+      }
+      .sheet-head .close {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        background: #fff;
+        display: grid;
+        place-items: center;
+        color: var(--tinta);
+        box-shadow: var(--shadow-s);
+      }
+      .sheet-head .close svg {
+        width: 20px;
+        height: 20px;
+      }
+      .sheet-body {
+        padding: 16px 16px 0;
+      }
 
-/* FAQ infografía */
-.faq-hero{background:linear-gradient(125deg,var(--azul),var(--celeste));border-radius:18px;padding:18px;color:#fff;margin-bottom:16px;position:relative;overflow:hidden}
-.faq-hero::after{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.12)}
-.faq-hero .k{font-family:"Fredoka";font-weight:700;font-size:34px;line-height:1}
-.faq-hero .kt{font-size:13px;opacity:.95;margin-top:3px;font-weight:500}
-.faq-stats{display:flex;gap:10px;margin-bottom:18px}
-.faq-stat{flex:1;background:#fff;border-radius:15px;padding:13px;box-shadow:var(--shadow-s);text-align:center}
-.faq-stat .n{font-family:"Fredoka";font-weight:700;font-size:22px;color:var(--rojo)}
-.faq-stat .l{font-size:10.5px;color:var(--gris);font-weight:600;margin-top:2px;line-height:1.2}
-.faq-item{background:#fff;border-radius:16px;box-shadow:var(--shadow-s);margin-bottom:11px;overflow:hidden;border-left:4px solid var(--rojo)}
-.faq-item:nth-child(even){border-left-color:var(--celeste)}
-.faq-q{display:flex;align-items:center;gap:12px;padding:15px 15px;font-weight:600;font-size:14px}
-.faq-q .qn{width:30px;height:30px;flex:0 0 auto;border-radius:9px;background:var(--rojo-soft);color:var(--rojo);
-  display:grid;place-items:center;font-family:"Fredoka";font-weight:700;font-size:14px}
-.faq-item:nth-child(even) .qn{background:var(--celeste-soft);color:var(--azul)}
-.faq-q .chev{margin-left:auto;color:var(--gris);transition:.25s;flex:0 0 auto}
-.faq-q .chev svg{width:20px;height:20px}
-.faq-item.open .chev{transform:rotate(180deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:13.5px;color:var(--gris);line-height:1.55}
-.faq-a div{padding:0 15px 16px 57px}
-.faq-a b{color:var(--tinta)}
-.faq-steps{display:flex;flex-direction:column;gap:0;margin:14px 0 18px;background:#fff;border-radius:16px;padding:6px 16px;box-shadow:var(--shadow-s)}
-.fstep{display:flex;gap:13px;padding:13px 0;border-bottom:1px dashed var(--linea);position:relative}
-.fstep:last-child{border-bottom:0}
-.fstep .sn{width:30px;height:30px;flex:0 0 auto;border-radius:50%;background:linear-gradient(135deg,var(--rojo),var(--azul));
-  color:#fff;display:grid;place-items:center;font-family:"Fredoka";font-weight:700;font-size:14px}
-.fstep .stx b{display:block;font-size:13.5px;color:var(--tinta);font-family:"Fredoka";font-weight:600}
-.fstep .stx span{font-size:12.5px;color:var(--gris)}
-.sec-title{font-family:"Fredoka";font-weight:600;font-size:15px;margin:18px 4px 8px;display:flex;align-items:center;gap:8px}
-.sec-title svg{width:18px;height:18px;color:var(--rojo)}
+      /* FAQ infografía */
+      .faq-hero {
+        background: linear-gradient(125deg, var(--azul), var(--celeste));
+        border-radius: 18px;
+        padding: 18px;
+        color: #fff;
+        margin-bottom: 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      .faq-hero::after {
+        content: '';
+        position: absolute;
+        right: -30px;
+        top: -30px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+      }
+      .faq-hero .k {
+        font-family: 'Fredoka';
+        font-weight: 700;
+        font-size: 34px;
+        line-height: 1;
+      }
+      .faq-hero .kt {
+        font-size: 13px;
+        opacity: 0.95;
+        margin-top: 3px;
+        font-weight: 500;
+      }
+      .faq-stats {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+      .faq-stat {
+        flex: 1;
+        background: #fff;
+        border-radius: 15px;
+        padding: 13px;
+        box-shadow: var(--shadow-s);
+        text-align: center;
+      }
+      .faq-stat .n {
+        font-family: 'Fredoka';
+        font-weight: 700;
+        font-size: 22px;
+        color: var(--rojo);
+      }
+      .faq-stat .l {
+        font-size: 10.5px;
+        color: var(--gris);
+        font-weight: 600;
+        margin-top: 2px;
+        line-height: 1.2;
+      }
+      .faq-item {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: var(--shadow-s);
+        margin-bottom: 11px;
+        overflow: hidden;
+        border-left: 4px solid var(--rojo);
+      }
+      .faq-item:nth-child(even) {
+        border-left-color: var(--celeste);
+      }
+      .faq-q {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 15px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .faq-q .qn {
+        width: 30px;
+        height: 30px;
+        flex: 0 0 auto;
+        border-radius: 9px;
+        background: var(--rojo-soft);
+        color: var(--rojo);
+        display: grid;
+        place-items: center;
+        font-family: 'Fredoka';
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .faq-item:nth-child(even) .qn {
+        background: var(--celeste-soft);
+        color: var(--azul);
+      }
+      .faq-q .chev {
+        margin-left: auto;
+        color: var(--gris);
+        transition: 0.25s;
+        flex: 0 0 auto;
+      }
+      .faq-q .chev svg {
+        width: 20px;
+        height: 20px;
+      }
+      .faq-item.open .chev {
+        transform: rotate(180deg);
+      }
+      .faq-a {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+        font-size: 13.5px;
+        color: var(--gris);
+        line-height: 1.55;
+      }
+      .faq-a div {
+        padding: 0 15px 16px 57px;
+      }
+      .faq-a b {
+        color: var(--tinta);
+      }
+      .faq-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        margin: 14px 0 18px;
+        background: #fff;
+        border-radius: 16px;
+        padding: 6px 16px;
+        box-shadow: var(--shadow-s);
+      }
+      .fstep {
+        display: flex;
+        gap: 13px;
+        padding: 13px 0;
+        border-bottom: 1px dashed var(--linea);
+        position: relative;
+      }
+      .fstep:last-child {
+        border-bottom: 0;
+      }
+      .fstep .sn {
+        width: 30px;
+        height: 30px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--rojo), var(--azul));
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-family: 'Fredoka';
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .fstep .stx b {
+        display: block;
+        font-size: 13.5px;
+        color: var(--tinta);
+        font-family: 'Fredoka';
+        font-weight: 600;
+      }
+      .fstep .stx span {
+        font-size: 12.5px;
+        color: var(--gris);
+      }
+      .sec-title {
+        font-family: 'Fredoka';
+        font-weight: 600;
+        font-size: 15px;
+        margin: 18px 4px 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .sec-title svg {
+        width: 18px;
+        height: 18px;
+        color: var(--rojo);
+      }
 
-/* Menu list */
-.menu-item{display:flex;align-items:center;gap:14px;background:#fff;border-radius:15px;padding:16px;
-  margin-bottom:10px;box-shadow:var(--shadow-s);width:100%;text-align:left;transition:.15s}
-.menu-item:active{transform:scale(.99)}
-.menu-item .mi{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:0 0 auto}
-.menu-item .mi svg{width:22px;height:22px}
-.menu-item .mt b{display:block;font-size:14.5px;font-family:"Fredoka";font-weight:600}
-.menu-item .mt span{font-size:12px;color:var(--gris)}
-.menu-item .arrow{margin-left:auto;color:var(--gris)}
+      /* Menu list */
+      .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: #fff;
+        border-radius: 15px;
+        padding: 16px;
+        margin-bottom: 10px;
+        box-shadow: var(--shadow-s);
+        width: 100%;
+        text-align: left;
+        transition: 0.15s;
+      }
+      .menu-item:active {
+        transform: scale(0.99);
+      }
+      .menu-item .mi {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+      }
+      .menu-item .mi svg {
+        width: 22px;
+        height: 22px;
+      }
+      .menu-item .mt b {
+        display: block;
+        font-size: 14.5px;
+        font-family: 'Fredoka';
+        font-weight: 600;
+      }
+      .menu-item .mt span {
+        font-size: 12px;
+        color: var(--gris);
+      }
+      .menu-item .arrow {
+        margin-left: auto;
+        color: var(--gris);
+      }
 
-/* Backoffice */
-.bo-lock{text-align:center;padding:30px 20px}
-.bo-lock .ring{width:84px;height:84px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;
-  background:var(--rojo-soft);color:var(--rojo)}
-.bo-lock .ring svg{width:40px;height:40px}
-.bo-lock h3{font-size:20px;font-weight:600;margin-bottom:8px}
-.bo-form{margin-top:6px;text-align:left}
-.bo-badge{display:inline-flex;align-items:center;gap:6px;background:#FFF3E0;color:#C97A00;font-size:11.5px;font-weight:700;
-  padding:6px 11px;border-radius:99px;margin-top:14px}
-.bo-badge svg{width:14px;height:14px}
+      /* Backoffice */
+      .bo-lock {
+        text-align: center;
+        padding: 30px 20px;
+      }
+      .bo-lock .ring {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        margin: 0 auto 16px;
+        display: grid;
+        place-items: center;
+        background: var(--rojo-soft);
+        color: var(--rojo);
+      }
+      .bo-lock .ring svg {
+        width: 40px;
+        height: 40px;
+      }
+      .bo-lock h3 {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .bo-form {
+        margin-top: 6px;
+        text-align: left;
+      }
+      .bo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #fff3e0;
+        color: #c97a00;
+        font-size: 11.5px;
+        font-weight: 700;
+        padding: 6px 11px;
+        border-radius: 99px;
+        margin-top: 14px;
+      }
+      .bo-badge svg {
+        width: 14px;
+        height: 14px;
+      }
 
-.foot{text-align:center;font-size:11px;color:var(--gris);padding:18px 16px 26px;line-height:1.5}
-.foot b{color:var(--rojo)}
-.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--tinta);
-  color:#fff;padding:12px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:90;opacity:0;
-  pointer-events:none;transition:.3s;box-shadow:var(--shadow);max-width:90%}
-.toast.show{opacity:1;transform:translateX(-50%)}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-</style>
-</head>
-<body>
-<div class="app">
-
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="topbar-row">
-      <div class="logo-m" aria-hidden="true">
-        <svg viewBox="0 0 48 48" fill="none"><path d="M6 38V14c0-3.3 4.2-4.7 6.2-2.1L24 27l11.8-15.1C37.8 9.3 42 10.7 42 14v24" stroke="url(#mg)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><defs><linearGradient id="mg" x1="6" y1="10" x2="42" y2="40"><stop stop-color="#E4002B"/><stop offset="1" stop-color="#0070BA"/></linearGradient></defs></svg>
-      </div>
-      <div class="brand">
-        <h1>Boleto Estudiantil Misionero</h1>
-        <p></p>
-      </div>
-      <button class="menu-btn" onclick="openSheet('menu')" aria-label="Abrir menú">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
-    </div>
-    <div class="lema">
-      <svg class="leaf" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C7 5 4 9 4 14c0 4 3 7 7 7 1 0 2-.2 3-.6V11l4-2-4 8.5C18 16 21 12 21 8c0-3-2-5-4-5-2 0-3 1-5 2-.3-1-1-2-1-3z" opacity=".95"/></svg>
-      Que tu único esfuerzo sea aprender · Ciclo 2026
-    </div>
-  </header>
-
-  <!-- STEPPER -->
-  <nav class="stepper" id="stepper">
-    <button class="step active" data-step="1" onclick="goStep(1,true)">
-      <div class="num" id="n1">1</div><div class="lbl">Ingresá<br>tu DNI</div>
-    </button>
-    <button class="step" data-step="2" onclick="goStep(2,true)">
-      <div class="num" id="n2">2</div><div class="lbl">Datos del<br>beneficio</div>
-    </button>
-    <button class="step" data-step="3" onclick="goStep(3,true)">
-      <div class="num" id="n3">3</div><div class="lbl">Tu código<br>QR</div>
-    </button>
-  </nav>
-  <div class="progress-track"><div class="progress-fill" id="prog"></div></div>
-
-  <!-- CONTENT -->
-  <main class="content">
-
-    <!-- PASO 1 -->
-    <section class="panel show" id="panel1">
-      <div class="card">
-        <div class="eyebrow">Paso 1 de 3</div>
-        <h2>Consultá tu beneficio</h2>
-        <p class="muted">Ingresá tu número de documento para verificar el Boleto Estudiantil Misionero.</p>
-        <div class="field">
-          <label for="dni">Número de DNI</label>
-          <div class="input-wrap" id="dniWrap">
-            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="11" r="2.2"/><path d="M6 16c.6-1.5 2-2 3-2s2.4.5 3 2M14 9h4M14 13h4" stroke-linecap="round"/></svg></span>
-            <input id="dni" type="tel" inputmode="numeric" placeholder="Ej: 1" autocomplete="off">
+      .foot {
+        text-align: center;
+        font-size: 11px;
+        color: var(--gris);
+        padding: 18px 16px 26px;
+        line-height: 1.5;
+      }
+      .foot b {
+        color: var(--rojo);
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 90px;
+        transform: translateX(-50%) translateY(20px);
+        background: var(--tinta);
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        z-index: 90;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+        box-shadow: var(--shadow);
+        max-width: 90%;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- TOP BAR -->
+      <header class="topbar">
+        <div class="topbar-row">
+          <div class="logo-m" aria-hidden="true">
+            <span
+              style="
+                font-family: 'Fredoka';
+                font-weight: 700;
+                font-size: 14px;
+                background: linear-gradient(120deg, var(--rojo), var(--azul));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                line-height: 1;
+                letter-spacing: -0.02em;
+              "
+              >BEM</span
+            >
           </div>
-          <div class="err-msg" id="dniErr">No encontramos un beneficio con ese DNI. Probá con un ejemplo de abajo.</div>
-          <p class="hint">Demo: usá un DNI de ejemplo del 1 al 20.</p>
-        </div>
-        <button class="btn" onclick="consultar()">
-          Consultar beneficio
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
-
-        <div class="samples">
-          <div class="st"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2" stroke-linecap="round"/></svg> DNI de prueba — tocá para autocompletar</div>
-          <div class="chips" id="chips"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PASO 2 -->
-    <section class="panel" id="panel2">
-      <div class="result-hero">
-        <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg> Beneficio activo</span>
-        <h2 id="r-dni">DNI —</h2>
-      </div>
-      <div class="detail-card">
-        <div class="drow r">
-          <div class="dic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5" stroke-linecap="round"/></svg></div>
-          <div><div class="dk">Beneficio</div><div class="dv" id="r-nivel">—</div></div>
-        </div>
-        <div class="drow">
-          <div class="dic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
-          <div><div class="dk">Municipio</div><div class="dv" id="r-muni">—</div></div>
-        </div>
-        <div class="drow">
-          <div class="dic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20M6 14h4" stroke-linecap="round"/></svg></div>
-          <div style="flex:1"><div class="dk">Medios habilitados</div><div class="media-list" id="r-medios"></div></div>
-        </div>
-        <div class="drow r">
-          <div class="dic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4" stroke-linecap="round"/></svg></div>
-          <div><div class="dk">Fecha de vigencia</div><div class="vig-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg> <span id="r-vig">Ciclo 2026</span></div></div>
-        </div>
-        <button class="btn azul" onclick="goStep(3)">
-          Generar código QR
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v.01M21 21v-4M17 21h4" stroke-linecap="round"/></svg>
-        </button>
-        <button class="btn secondary" style="margin-top:11px" onclick="resetAll()">Consultar otro DNI</button>
-      </div>
-    </section>
-
-    <!-- PASO 3 -->
-    <section class="panel" id="panel3">
-      <div class="qr-card">
-        <div class="eyebrow">Paso 3 de 3</div>
-        <h2 style="font-size:22px;font-weight:600">Tu credencial QR</h2>
-        <p class="muted">Escaneá o imprimí este código. Al leerlo, se abre tu beneficio con los datos ya cargados.</p>
-        <div class="qr-frame"><div id="qrcode"></div></div>
-        <div class="qr-name" id="q-dni">—</div>
-        <div class="qr-sub" id="q-sub">—</div>
-        <div class="qr-meta" id="q-meta"></div>
-        <div class="qr-actions">
-          <button class="btn azul" onclick="window.print()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2" stroke-linecap="round"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg>
-            Imprimir
+          <div class="brand">
+            <h1>Boleto Estudiantil Misionero</h1>
+            <p></p>
+          </div>
+          <button
+            class="menu-btn"
+            onclick="openSheet('menu')"
+            aria-label="Abrir menú"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <path d="M3 6h18M3 12h18M3 18h18" />
+            </svg>
           </button>
-          <button class="btn secondary" onclick="resetAll()">Nuevo</button>
+        </div>
+        <div class="lema">
+          <svg class="leaf" viewBox="0 0 24 24" fill="#fff">
+            <path
+              d="M12 2C7 5 4 9 4 14c0 4 3 7 7 7 1 0 2-.2 3-.6V11l4-2-4 8.5C18 16 21 12 21 8c0-3-2-5-4-5-2 0-3 1-5 2-.3-1-1-2-1-3z"
+              opacity=".95"
+            />
+          </svg>
+          Que tu único esfuerzo sea aprender · Ciclo 2026
+        </div>
+      </header>
+
+      <!-- STEPPER -->
+      <nav class="stepper" id="stepper">
+        <button class="step active" data-step="1" onclick="goStep(1, true)">
+          <div class="num" id="n1">1</div>
+          <div class="lbl">Ingresá<br />tu DNI</div>
+        </button>
+        <button class="step" data-step="2" onclick="goStep(2, true)">
+          <div class="num" id="n2">2</div>
+          <div class="lbl">Datos del<br />beneficio</div>
+        </button>
+        <button class="step" data-step="3" onclick="goStep(3, true)">
+          <div class="num" id="n3">3</div>
+          <div class="lbl">Tu código<br />QR</div>
+        </button>
+      </nav>
+      <div class="progress-track">
+        <div class="progress-fill" id="prog"></div>
+      </div>
+
+      <!-- CONTENT -->
+      <main class="content">
+        <!-- PASO 1 -->
+        <section class="panel show" id="panel1">
+          <div class="card">
+            <div class="eyebrow">Paso 1 de 3</div>
+            <h2>Consultá tu beneficio</h2>
+            <p class="muted">
+              Ingresá tu número de documento para verificar el Boleto
+              Estudiantil Misionero.
+            </p>
+            <div class="field">
+              <label for="dni">Número de DNI</label>
+              <div class="input-wrap" id="dniWrap">
+                <span class="ic"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="5" width="18" height="14" rx="2.5" />
+                    <circle cx="9" cy="11" r="2.2" />
+                    <path
+                      d="M6 16c.6-1.5 2-2 3-2s2.4.5 3 2M14 9h4M14 13h4"
+                      stroke-linecap="round"
+                    /></svg
+                ></span>
+                <input
+                  id="dni"
+                  type="tel"
+                  inputmode="numeric"
+                  placeholder="Ej: 1"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="err-msg" id="dniErr">
+                No encontramos un beneficio con ese DNI. Probá con un ejemplo de
+                abajo.
+              </div>
+              <p class="hint">Demo: usá un DNI de ejemplo del 1 al 20.</p>
+            </div>
+            <button class="btn" onclick="consultar()">
+              Consultar beneficio
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </button>
+
+            <div class="samples">
+              <div class="st">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 8v4l3 2" stroke-linecap="round" />
+                </svg>
+                DNI de prueba — tocá para autocompletar
+              </div>
+              <div class="chips" id="chips"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PASO 2 -->
+        <section class="panel" id="panel2">
+          <div class="result-hero">
+            <span class="tag"
+              ><svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.4"
+              >
+                <path
+                  d="M20 6L9 17l-5-5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Beneficio activo</span
+            >
+            <h2 id="r-dni">DNI —</h2>
+          </div>
+          <div class="detail-card">
+            <div class="drow r">
+              <div class="dic">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M22 10L12 5 2 10l10 5 10-5z" />
+                  <path
+                    d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </div>
+              <div>
+                <div class="dk">Beneficio</div>
+                <div class="dv" id="r-nivel">—</div>
+              </div>
+            </div>
+            <div class="drow">
+              <div class="dic">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z" />
+                  <circle cx="12" cy="10" r="2.4" />
+                </svg>
+              </div>
+              <div>
+                <div class="dk">Municipio</div>
+                <div class="dv" id="r-muni">—</div>
+              </div>
+            </div>
+            <div class="drow">
+              <div class="dic">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="2" y="6" width="20" height="12" rx="2" />
+                  <path d="M2 10h20M6 14h4" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div style="flex: 1">
+                <div class="dk">Medios habilitados</div>
+                <div class="media-list" id="r-medios"></div>
+              </div>
+            </div>
+            <div class="drow r">
+              <div class="dic">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <rect x="3" y="5" width="18" height="16" rx="2" />
+                  <path d="M3 9h18M8 3v4M16 3v4" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div>
+                <div class="dk">Fecha de vigencia</div>
+                <div class="vig-badge">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.4"
+                  >
+                    <path
+                      d="M20 6L9 17l-5-5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span id="r-vig">Ciclo 2026</span>
+                </div>
+              </div>
+            </div>
+            <button class="btn azul" onclick="goStep(3)">
+              Generar QR
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <path
+                  d="M14 14h3v3M21 14v.01M21 21v-4M17 21h4"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </button>
+            <button
+              class="btn secondary"
+              style="margin-top: 11px"
+              onclick="resetAll()"
+            >
+              Consultar otro DNI
+            </button>
+          </div>
+        </section>
+
+        <!-- PASO 3 -->
+        <section class="panel" id="panel3">
+          <div class="qr-card">
+            <div class="eyebrow">Paso 3 de 3</div>
+            <h2 style="font-size: 22px; font-weight: 600">
+              Tu credencial QR (no apta para viajar)
+            </h2>
+            <p class="muted">
+              Escaneá o imprimí este código. Al leerlo, se abre tu beneficio con
+              los datos ya cargados. Presentá este QR en la empresa de
+              transporte. La emisión del pasaje se realizará a través de los
+              medios habituales de la empresa.
+            </p>
+            <div class="qr-frame"><div id="qrcode"></div></div>
+            <div class="qr-name" id="q-dni">—</div>
+            <div class="qr-sub" id="q-sub">—</div>
+            <div class="qr-meta" id="q-meta"></div>
+            <div class="qr-actions">
+              <button class="btn azul" onclick="window.print()">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2"
+                    stroke-linecap="round"
+                  />
+                  <rect x="6" y="14" width="12" height="7" rx="1" />
+                </svg>
+                Imprimir
+              </button>
+              <button class="btn secondary" onclick="resetAll()">Nuevo</button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- BOTTOM NAV -->
+      <nav class="botnav">
+        <button class="on" onclick="resetAll()">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M3 11l9-8 9 8M5 10v10h14V10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg
+          >Inicio
+        </button>
+        <button onclick="openSheet('faq')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path
+              d="M9.5 9a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 4M12 17h.01"
+              stroke-linecap="round"
+            /></svg
+          >Preguntas
+        </button>
+        <button onclick="openSheet('backoffice')">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <rect x="3" y="11" width="18" height="10" rx="2" />
+            <path d="M7 11V8a5 5 0 0110 0v3" stroke-linecap="round" /></svg
+          >Backoffice
+        </button>
+      </nav>
+
+      <div class="foot">
+        Demo de prototipo BEM · No oficial · Datos de ejemplo<br />Gobierno de
+        la Provincia de <b>Misiones</b>
+      </div>
+    </div>
+
+    <!-- ===== SHEET: MENU ===== -->
+    <div class="sheet" id="sheet-menu">
+      <div class="sheet-bg" onclick="closeSheets()"></div>
+      <div class="sheet-panel">
+        <div class="sheet-head">
+          <h2>Menú</h2>
+          <button class="close" onclick="closeSheets()">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+        <div class="sheet-body">
+          <button
+            class="menu-item"
+            onclick="
+              closeSheets();
+              openSheet('faq');
+            "
+          >
+            <div
+              class="mi"
+              style="background: var(--celeste-soft); color: var(--azul)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path
+                  d="M9.5 9a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 4M12 17h.01"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+            <div class="mt">
+              <b>Preguntas frecuentes</b
+              ><span>Cómo tramitar, requisitos y vigencia</span>
+            </div>
+            <span class="arrow"
+              ><svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M9 6l6 6-6 6" stroke-linecap="round" /></svg
+            ></span>
+          </button>
+          <button
+            class="menu-item"
+            onclick="
+              closeSheets();
+              openSheet('backoffice');
+            "
+          >
+            <div
+              class="mi"
+              style="background: var(--rojo-soft); color: var(--rojo)"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="3" y="11" width="18" height="10" rx="2" />
+                <path d="M7 11V8a5 5 0 0110 0v3" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div class="mt">
+              <b>Acceso Backoffice</b><span>Panel de administración</span>
+            </div>
+            <span class="arrow"
+              ><svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M9 6l6 6-6 6" stroke-linecap="round" /></svg
+            ></span>
+          </button>
+          <button
+            class="menu-item"
+            onclick="
+              closeSheets();
+              resetAll();
+            "
+          >
+            <div class="mi" style="background: #eaf6ef; color: var(--ok)">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M3 11l9-8 9 8M5 10v10h14V10"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="mt">
+              <b>Consultar beneficio</b
+              ><span>Volver al inicio del trámite</span>
+            </div>
+            <span class="arrow"
+              ><svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M9 6l6 6-6 6" stroke-linecap="round" /></svg
+            ></span>
+          </button>
         </div>
       </div>
-    </section>
-  </main>
-
-  <!-- BOTTOM NAV -->
-  <nav class="botnav">
-    <button class="on" onclick="resetAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10" stroke-linecap="round" stroke-linejoin="round"/></svg>Inicio</button>
-    <button onclick="openSheet('faq')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 4M12 17h.01" stroke-linecap="round"/></svg>Preguntas</button>
-    <button onclick="openSheet('backoffice')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3" stroke-linecap="round"/></svg>Backoffice</button>
-  </nav>
-
-  <div class="foot">Demo de prototipo BEM · No oficial · Datos de ejemplo<br>Gobierno de la Provincia de <b>Misiones</b></div>
-</div>
-
-<!-- ===== SHEET: MENU ===== -->
-<div class="sheet" id="sheet-menu">
-  <div class="sheet-bg" onclick="closeSheets()"></div>
-  <div class="sheet-panel">
-    <div class="sheet-head"><h2>Menú</h2><button class="close" onclick="closeSheets()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <div class="sheet-body">
-      <button class="menu-item" onclick="closeSheets();openSheet('faq')">
-        <div class="mi" style="background:var(--celeste-soft);color:var(--azul)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 115 0c0 1.7-2.5 2-2.5 4M12 17h.01" stroke-linecap="round"/></svg></div>
-        <div class="mt"><b>Preguntas frecuentes</b><span>Cómo tramitar, requisitos y vigencia</span></div>
-        <span class="arrow"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round"/></svg></span>
-      </button>
-      <button class="menu-item" onclick="closeSheets();openSheet('backoffice')">
-        <div class="mi" style="background:var(--rojo-soft);color:var(--rojo)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3" stroke-linecap="round"/></svg></div>
-        <div class="mt"><b>Acceso Backoffice</b><span>Panel de administración</span></div>
-        <span class="arrow"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round"/></svg></span>
-      </button>
-      <button class="menu-item" onclick="closeSheets();resetAll()">
-        <div class="mi" style="background:#EAF6EF;color:var(--ok)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8M5 10v10h14V10" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="mt"><b>Consultar beneficio</b><span>Volver al inicio del trámite</span></div>
-        <span class="arrow"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6" stroke-linecap="round"/></svg></span>
-      </button>
     </div>
-  </div>
-</div>
 
-<!-- ===== SHEET: FAQ (infografía) ===== -->
-<div class="sheet" id="sheet-faq">
-  <div class="sheet-bg" onclick="closeSheets()"></div>
-  <div class="sheet-panel">
-    <div class="sheet-head"><h2>Preguntas frecuentes</h2><button class="close" onclick="closeSheets()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <div class="sheet-body">
-      <div class="faq-hero">
-        <div class="k">100% Misionero</div>
-        <div class="kt">Solventado por el Gobierno de Misiones para estudiantes de todos los niveles.</div>
-      </div>
-      <div class="faq-stats">
-        <div class="faq-stat"><div class="n">+300mil</div><div class="l">estudiantes alcanzados</div></div>
-        <div class="faq-stat"><div class="n">6</div><div class="l">niveles educativos</div></div>
-        <div class="faq-stat"><div class="n">2026</div><div class="l">ciclo vigente</div></div>
-      </div>
-
-      <div class="sec-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" stroke-linecap="round"/></svg> ¿Cómo lo tramito? 3 pasos</div>
-      <div class="faq-steps">
-        <div class="fstep"><div class="sn">1</div><div class="stx"><b>Sin trámites</b><span>100% online - Ingresá al sitio oficial y consulta con tu DNI.</span></div></div>
-        <div class="fstep"><div class="sn">2</div><div class="stx"><b>Elegí tu medio</b><span>APP, DNI Tarjeta o Nueva SUBE, según tu municipio.*</span></div></div>
-        <div class="fstep"><div class="sn">3</div><div class="stx"><b>¡Viajá gratis!</b><span>Con tu beneficio activo subís al colectivo sin pagar durante el ciclo lectivo.</span></div></div>
-      </div>
-
-      <div class="sec-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2" stroke-linecap="round"/></svg> Lo que más nos preguntan</div>
-      <div id="faqList"></div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== SHEET: BACKOFFICE ===== -->
-<div class="sheet" id="sheet-backoffice">
-  <div class="sheet-bg" onclick="closeSheets()"></div>
-  <div class="sheet-panel">
-    <div class="sheet-head"><h2>Acceso Backoffice</h2><button class="close" onclick="closeSheets()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <div class="sheet-body">
-      <div class="bo-lock">
-        <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3" stroke-linecap="round"/><circle cx="12" cy="15.5" r="1.4" fill="currentColor"/></svg></div>
-        <h3>Panel de administración</h3>
-        <p class="muted">Gestión de beneficiarios, validaciones y reportes.</p>
-      </div>
-      <div class="bo-form">
-        <div class="field" style="margin-top:6px">
-          <label>Usuario</label>
-          <div class="input-wrap"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" stroke-linecap="round"/></svg></span><input type="text" placeholder="usuario@misiones.gov.ar" disabled></div>
+    <!-- ===== SHEET: FAQ (infografía) ===== -->
+    <div class="sheet" id="sheet-faq">
+      <div class="sheet-bg" onclick="closeSheets()"></div>
+      <div class="sheet-panel">
+        <div class="sheet-head">
+          <h2>Preguntas frecuentes</h2>
+          <button class="close" onclick="closeSheets()">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
         </div>
-        <div class="field">
-          <label>Contraseña</label>
-          <div class="input-wrap"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3" stroke-linecap="round"/></svg></span><input type="text" placeholder="••••••••" disabled></div>
+        <div class="sheet-body">
+          <div class="faq-hero">
+            <div class="k">100% Misionero</div>
+            <div class="kt">
+              Solventado por el Gobierno de Misiones para estudiantes de todos
+              los niveles.
+            </div>
+          </div>
+          <div class="faq-stats">
+            <div class="faq-stat">
+              <div class="n">+300mil</div>
+              <div class="l">estudiantes alcanzados</div>
+            </div>
+            <div class="faq-stat">
+              <div class="n">6</div>
+              <div class="l">niveles educativos</div>
+            </div>
+            <div class="faq-stat">
+              <div class="n">2026</div>
+              <div class="l">ciclo vigente</div>
+            </div>
+          </div>
+
+          <div class="sec-title">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M9 11l3 3 8-8M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
+                stroke-linecap="round"
+              />
+            </svg>
+            ¿Cómo lo tramito? 3 pasos
+          </div>
+          <div class="faq-steps">
+            <div class="fstep">
+              <div class="sn">1</div>
+              <div class="stx">
+                <b>Sin trámites</b
+                ><span
+                  >100% online - Ingresá al sitio oficial y consulta con tu
+                  DNI.</span
+                >
+              </div>
+            </div>
+            <div class="fstep">
+              <div class="sn">2</div>
+              <div class="stx">
+                <b>Elegí tu medio</b
+                ><span
+                  >APP, DNI Tarjeta o Nueva SUBE, según tu municipio.*</span
+                >
+              </div>
+            </div>
+            <div class="fstep">
+              <div class="sn">3</div>
+              <div class="stx">
+                <b>¡Viajá gratis!</b
+                ><span
+                  >Con tu beneficio activo subís al colectivo sin pagar durante
+                  el ciclo lectivo.</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="sec-title">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 8v4l3 2" stroke-linecap="round" />
+            </svg>
+            Lo que más nos preguntan
+          </div>
+          <div id="faqList"></div>
         </div>
-        <button class="btn" onclick="toast('Backoffice no disponible en esta demo')">Iniciar sesión</button>
-        <div style="text-align:center"><span class="bo-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z" stroke-linecap="round" stroke-linejoin="round"/></svg> Módulo en construcción · sin funcionalidad</span></div>
       </div>
     </div>
-  </div>
-</div>
 
-<div class="toast" id="toast"></div>
+    <!-- ===== SHEET: BACKOFFICE ===== -->
+    <div class="sheet" id="sheet-backoffice">
+      <div class="sheet-bg" onclick="closeSheets()"></div>
+      <div class="sheet-panel">
+        <div class="sheet-head">
+          <h2>Acceso Backoffice</h2>
+          <button class="close" onclick="closeSheets()">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            >
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
+        <div class="sheet-body">
+          <div class="bo-lock">
+            <div class="ring">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="4" y="11" width="16" height="9" rx="2" />
+                <path d="M8 11V8a4 4 0 018 0v3" stroke-linecap="round" />
+                <circle cx="12" cy="15.5" r="1.4" fill="currentColor" />
+              </svg>
+            </div>
+            <h3>Panel de administración</h3>
+            <p class="muted">
+              Gestión de beneficiarios, validaciones y reportes.
+            </p>
+          </div>
+          <div class="bo-form">
+            <div class="field" style="margin-top: 6px">
+              <label>Usuario</label>
+              <div class="input-wrap">
+                <span class="ic"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="8" r="4" />
+                    <path
+                      d="M4 21c0-4 3.6-6 8-6s8 2 8 6"
+                      stroke-linecap="round"
+                    /></svg></span
+                ><input
+                  type="text"
+                  placeholder="usuario@misiones.gov.ar"
+                  disabled
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label>Contraseña</label>
+              <div class="input-wrap">
+                <span class="ic"
+                  ><svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="4" y="11" width="16" height="9" rx="2" />
+                    <path
+                      d="M8 11V8a4 4 0 018 0v3"
+                      stroke-linecap="round"
+                    /></svg></span
+                ><input type="text" placeholder="••••••••" disabled />
+              </div>
+            </div>
+            <button
+              class="btn"
+              onclick="toast('Backoffice no disponible en esta demo')"
+            >
+              Iniciar sesión
+            </button>
+            <div style="text-align: center">
+              <span class="bo-badge"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.2"
+                >
+                  <path
+                    d="M12 9v4M12 17h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                Módulo en construcción · sin funcionalidad</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<script>
-/* ============ DATA ============ */
-const NIVELES = {U:"Universitario", S:"Secundario", P:"Primario"};
-const VIG = {
-  P:"Vigente desde 02/03/2026", S:"Vigente desde 02/03/2026", U:"Vigente desde 09/03/2026"
-};
-// Municipios con medios electrónicos habilitados
-const MUNI_DIGITAL = ["Posadas","Garupá","Candelaria","Oberá"];
+    <div class="toast" id="toast"></div>
 
-function mediosFor(muni){
-  if(MUNI_DIGITAL.includes(muni)){
-    return [
-      {t:"DNI Tarjeta", warn:false, ic:'<rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 14h5" stroke-linecap="round"/>'},
-      {t:"APP", warn:false, ic:'<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2" stroke-linecap="round"/>'},
-      {t:"Nueva SUBE Misionero", warn:false, ic:'<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8" cy="12" r="2.2"/><path d="M13 10h5M13 14h5" stroke-linecap="round"/>'}
-    ];
-  }
-  return [
-    {t:"Trámite presencial en empresa de transporte", warn:true, ic:'<path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/>'}
-  ];
-}
+    <script>
+      /* ============ DATA ============ */
+      const NIVELES = { U: 'Universitario', S: 'Secundario', P: 'Primario' };
+      const VIG = {
+        P: 'Vigente desde 02/03/2026',
+        S: 'Vigente desde 02/03/2026',
+        U: 'Vigente desde 09/03/2026',
+      };
+      // Municipios con medios electrónicos habilitados
+      const MUNI_DIGITAL = ['Posadas', 'Garupá', 'Candelaria', 'Oberá'];
 
-// Casos base pedidos + ampliación a 20
-const BASE = [
-  [1,"U","Posadas"],[2,"S","Garupá"],[3,"P","Oberá"],
-  [4,"U","Eldorado"],[5,"P","Montecarlo"],[6,"S","Apóstoles"]
-];
-const EXTRA = [
-  [7,"U","Candelaria"],[8,"S","Posadas"],[9,"P","Garupá"],
-  [10,"U","Oberá"],[11,"S","Eldorado"],[12,"P","Apóstoles"],
-  [13,"U","Montecarlo"],[14,"P","Posadas"],[15,"S","Candelaria"],
-  [16,"U","San Vicente"],[17,"P","Puerto Iguazú"],[18,"S","Oberá"],
-  [19,"U","Garupá"],[20,"P","Leandro N. Alem"]
-];
-const DB = {};
-[...BASE,...EXTRA].forEach((r,i)=>{
-  DB[String(r[0])] = {dni:String(r[0]), nivel:r[1], muni:r[2]};
-});
+      function mediosFor(muni) {
+        if (MUNI_DIGITAL.includes(muni)) {
+          return [
+            {
+              t: 'DNI Tarjeta',
+              warn: false,
+              ic: '<rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20M6 14h5" stroke-linecap="round"/>',
+            },
+            {
+              t: 'APP',
+              warn: false,
+              ic: '<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2" stroke-linecap="round"/>',
+            },
+            {
+              t: 'Nueva SUBE Misionero',
+              warn: false,
+              ic: '<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8" cy="12" r="2.2"/><path d="M13 10h5M13 14h5" stroke-linecap="round"/>',
+            },
+          ];
+        }
+        return [
+          {
+            t: 'Trámite presencial en empresa de transporte',
+            warn: true,
+            ic: '<path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.2"/>',
+          },
+        ];
+      }
 
-/* ============ FAQ content ============ */
-const FAQS = [
-  ["¿Quiénes pueden solicitarlo?","Estudiantes de niveles <b>Inicial, Primario, Secundario, Modalidades, Superior y Universitario</b> del sistema educativo provincial."],
-  ["¿Qué necesito para el trámite presencial en una empresa sin validador digital?","Podes llevar el <b>QR</b>, la empresa va a validar la vigencia de tu beneficio en esta misma página."],
-  ["¿Se renueva solo?","La <b>institución educativa carga tu regularidad</b>. Solo tenes que estudiar y <b>que tu unico esfuerzo sea aprender...</b>"],
-  ["¿Qué medios puedo usar en el colectivo?","Depende de tu municipio: en los habilitados podés usar <b>DNI Tarjeta, la App o la Nueva SUBE</b>. En el resto, se gestiona de forma presencial en la empresa de transporte."],
-  ["¿Desde cuándo está vigente?","Para cada ciclo comienza con el inicio de clases, de forma escalonada según el nivel educativo. Las fechas son informadas."],
-  ["Mi DNI no figura como beneficiado<br>¿Qué debo hacer?","Debes comunicarte con tu <b>institución educativa</b>, si estas regular, ellos deberán cargar tus datos al sistema BEM que impacta de manera inmediata en 24 horas en los sistemas con transporte digital."]
-];
+      // Casos base pedidos + ampliación a 20
+      const BASE = [
+        [1, 'U', 'Posadas'],
+        [2, 'S', 'Garupá'],
+        [3, 'P', 'Oberá'],
+        [4, 'U', 'Eldorado'],
+        [5, 'P', 'Montecarlo'],
+        [6, 'S', 'Apóstoles'],
+      ];
+      const EXTRA = [
+        [7, 'U', 'Candelaria'],
+        [8, 'S', 'Posadas'],
+        [9, 'P', 'Garupá'],
+        [10, 'U', 'Oberá'],
+        [11, 'S', 'Eldorado'],
+        [12, 'P', 'Apóstoles'],
+        [13, 'U', 'Montecarlo'],
+        [14, 'P', 'Posadas'],
+        [15, 'S', 'Candelaria'],
+        [16, 'U', 'San Vicente'],
+        [17, 'P', 'Puerto Iguazú'],
+        [18, 'S', 'Oberá'],
+        [19, 'U', 'Garupá'],
+        [20, 'P', 'Leandro N. Alem'],
+      ];
+      const DB = {};
+      [...BASE, ...EXTRA].forEach((r, i) => {
+        DB[String(r[0])] = { dni: String(r[0]), nivel: r[1], muni: r[2] };
+      });
 
-/* ============ State / flow ============ */
-let current = null;
-let maxStep = 1;
+      /* ============ FAQ content ============ */
+      const FAQS = [
+        [
+          '¿Quiénes pueden solicitarlo?',
+          'Estudiantes de niveles <b>Inicial, Primario, Secundario, Modalidades, Superior y Universitario</b> del sistema educativo provincial.',
+        ],
+        [
+          '¿Qué necesito para el trámite presencial en una empresa sin validador digital?',
+          'Podes llevar el <b>QR</b>, la empresa va a validar la vigencia de tu beneficio en esta misma página.',
+        ],
+        [
+          '¿Se renueva solo?',
+          'La <b>institución educativa carga tu regularidad</b>. Solo tenes que estudiar y <b>que tu unico esfuerzo sea aprender...</b>',
+        ],
+        [
+          '¿Qué medios puedo usar en el colectivo?',
+          'Depende de tu municipio: en los habilitados podés usar <b>DNI Tarjeta, la App o la Nueva SUBE</b>. En el resto, se gestiona de forma presencial en la empresa de transporte.',
+        ],
+        [
+          '¿Desde cuándo está vigente?',
+          'Para cada ciclo comienza con el inicio de clases, de forma escalonada según el nivel educativo. Las fechas son informadas.',
+        ],
+        [
+          'Mi DNI no figura como beneficiado<br>¿Qué debo hacer?',
+          'Debes comunicarte con tu <b>institución educativa</b>, si estas regular, ellos deberán cargar tus datos al sistema BEM que impacta de manera inmediata en 24 horas en los sistemas con transporte digital.',
+        ],
+      ];
 
-function renderChips(){
-  const c = document.getElementById('chips');
-  c.innerHTML = "";
-  [1,2,3,4,5,6].forEach(n=>{
-    const d = DB[String(n)];
-    const b = document.createElement('button');
-    b.className='chip';
-    b.innerHTML = `<b>${n}</b> · ${NIVELES[d.nivel].slice(0,4)}. · ${d.muni}`;
-    b.onclick=()=>{document.getElementById('dni').value=n; consultar();};
-    c.appendChild(b);
-  });
-}
-function renderFaq(){
-  const l = document.getElementById('faqList');
-  l.innerHTML="";
-  FAQS.forEach((f,i)=>{
-    const item=document.createElement('div');
-    item.className='faq-item';
-    item.innerHTML=`<button class="faq-q" onclick="this.parentNode.classList.toggle('open');toggleA(this)">
-      <span class="qn">${i+1}</span><span>${f[0]}</span>
+      /* ============ State / flow ============ */
+      let current = null;
+      let maxStep = 1;
+
+      function renderChips() {
+        const c = document.getElementById('chips');
+        c.innerHTML = '';
+        [1, 2, 3, 4, 5, 6].forEach((n) => {
+          const d = DB[String(n)];
+          const b = document.createElement('button');
+          b.className = 'chip';
+          b.innerHTML = `<b>${n}</b> · ${NIVELES[d.nivel].slice(0, 4)}. · ${d.muni}`;
+          b.onclick = () => {
+            document.getElementById('dni').value = n;
+            consultar();
+          };
+          c.appendChild(b);
+        });
+      }
+      function renderFaq() {
+        const l = document.getElementById('faqList');
+        l.innerHTML = '';
+        FAQS.forEach((f, i) => {
+          const item = document.createElement('div');
+          item.className = 'faq-item';
+          item.innerHTML = `<button class="faq-q" onclick="this.parentNode.classList.toggle('open');toggleA(this)">
+      <span class="qn">${i + 1}</span><span>${f[0]}</span>
       <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" stroke-linecap="round"/></svg></span></button>
       <div class="faq-a"><div>${f[1]}</div></div>`;
-    l.appendChild(item);
-  });
-}
-function toggleA(btn){
-  const a=btn.parentNode.querySelector('.faq-a');
-  a.style.maxHeight = a.style.maxHeight ? "" : a.scrollHeight+"px";
-}
+          l.appendChild(item);
+        });
+      }
+      function toggleA(btn) {
+        const a = btn.parentNode.querySelector('.faq-a');
+        a.style.maxHeight = a.style.maxHeight ? '' : a.scrollHeight + 'px';
+      }
 
-function consultar(){
-  const v = document.getElementById('dni').value.trim();
-  const wrap=document.getElementById('dniWrap'), err=document.getElementById('dniErr');
-  if(!DB[v]){
-    wrap.classList.add('err'); err.classList.add('show');
-    return;
-  }
-  wrap.classList.remove('err'); err.classList.remove('show');
-  current = DB[v];
-  fillStep2(current);
-  maxStep = Math.max(maxStep,2);
-  goStep(2);
-}
+      function consultar() {
+        const v = document.getElementById('dni').value.trim();
+        const wrap = document.getElementById('dniWrap'),
+          err = document.getElementById('dniErr');
+        if (!DB[v]) {
+          wrap.classList.add('err');
+          err.classList.add('show');
+          return;
+        }
+        wrap.classList.remove('err');
+        err.classList.remove('show');
+        current = DB[v];
+        fillStep2(current);
+        maxStep = Math.max(maxStep, 2);
+        goStep(2);
+      }
 
-function fillStep2(d){
-  document.getElementById('r-dni').textContent="DNI "+d.dni;
-  document.getElementById('r-nivel').textContent=NIVELES[d.nivel];
-  document.getElementById('r-muni').textContent=d.muni;
-  document.getElementById('r-vig').textContent="Ciclo 2026 · "+VIG[d.nivel];
-  const m=document.getElementById('r-medios'); m.innerHTML="";
-  mediosFor(d.muni).forEach(med=>{
-    const p=document.createElement('span');
-    p.className='media-pill'+(med.warn?' warn':'');
-    p.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${med.ic}</svg>${med.t}`;
-    m.appendChild(p);
-  });
-}
+      function fillStep2(d) {
+        document.getElementById('r-dni').textContent = 'DNI ' + d.dni;
+        document.getElementById('r-nivel').textContent = NIVELES[d.nivel];
+        document.getElementById('r-muni').textContent = d.muni;
+        document.getElementById('r-vig').textContent =
+          'Ciclo 2026 · ' + VIG[d.nivel];
+        const m = document.getElementById('r-medios');
+        m.innerHTML = '';
+        mediosFor(d.muni).forEach((med) => {
+          const p = document.createElement('span');
+          p.className = 'media-pill' + (med.warn ? ' warn' : '');
+          p.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${med.ic}</svg>${med.t}`;
+          m.appendChild(p);
+        });
+      }
 
-function buildQRPayload(d){
-  // URL que reabre el paso 2 autocompletando el DNI consultado
-  const base = location.origin + location.pathname;
-  return `${base}#beneficio?dni=${d.dni}`;
-}
+      function buildQRPayload(d) {
+        // URL que reabre el paso 2 autocompletando el DNI consultado
+        const base = location.origin + location.pathname;
+        return `${base}#beneficio?dni=${d.dni}`;
+      }
 
-function fillStep3(d){
-  document.getElementById('qrcode').innerHTML="";
-  new QRCode(document.getElementById('qrcode'),{
-    text:buildQRPayload(d), width:200, height:200,
-    colorDark:"#16202B", colorLight:"#ffffff", correctLevel:QRCode.CorrectLevel.M
-  });
-  document.getElementById('q-dni').textContent="DNI "+d.dni;
-  document.getElementById('q-sub').textContent=`${NIVELES[d.nivel]} · ${d.muni}`;
-  const meta=document.getElementById('q-meta');
-  meta.innerHTML=`<span>Ciclo 2026</span><span>${MUNI_DIGITAL.includes(d.muni)?'Medios digitales':'Trámite presencial'}</span>`;
-}
+      function fillStep3(d) {
+        document.getElementById('qrcode').innerHTML = '';
+        new QRCode(document.getElementById('qrcode'), {
+          text: buildQRPayload(d),
+          width: 200,
+          height: 200,
+          colorDark: '#16202B',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M,
+        });
+        document.getElementById('q-dni').textContent = 'DNI ' + d.dni;
+        document.getElementById('q-sub').textContent =
+          `${NIVELES[d.nivel]} · ${d.muni}`;
+        const meta = document.getElementById('q-meta');
+        meta.innerHTML = `<span>Ciclo 2026</span><span>${MUNI_DIGITAL.includes(d.muni) ? 'Medios digitales' : 'Trámite presencial'}</span>`;
+      }
 
-function goStep(n, fromTab){
-  if(fromTab && n>maxStep) { toast('Completá los pasos anteriores primero'); return; }
-  if(n===3){ if(!current){toast('Consultá un DNI primero');return;} maxStep=Math.max(maxStep,3); fillStep3(current); }
-  current && n>=2 && fillStep2(current);
-  // panels
-  for(let i=1;i<=3;i++){
-    document.getElementById('panel'+i).classList.toggle('show', i===n);
-    const st=document.querySelector('.step[data-step="'+i+'"]');
-    const num=document.getElementById('n'+i);
-    st.classList.remove('active','done');
-    if(i<n){ st.classList.add('done'); num.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-    else { num.textContent=i; if(i===n) st.classList.add('active'); }
-  }
-  document.getElementById('prog').style.width = (n/3*100)+"%";
-  document.querySelector('.content').scrollIntoView({behavior:'smooth',block:'start'});
-}
+      function goStep(n, fromTab) {
+        if (fromTab && n > maxStep) {
+          toast('Completá los pasos anteriores primero');
+          return;
+        }
+        if (n === 3) {
+          if (!current) {
+            toast('Consultá un DNI primero');
+            return;
+          }
+          maxStep = Math.max(maxStep, 3);
+          fillStep3(current);
+        }
+        current && n >= 2 && fillStep2(current);
+        // panels
+        for (let i = 1; i <= 3; i++) {
+          document
+            .getElementById('panel' + i)
+            .classList.toggle('show', i === n);
+          const st = document.querySelector('.step[data-step="' + i + '"]');
+          const num = document.getElementById('n' + i);
+          st.classList.remove('active', 'done');
+          if (i < n) {
+            st.classList.add('done');
+            num.innerHTML =
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5 9-10" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          } else {
+            num.textContent = i;
+            if (i === n) st.classList.add('active');
+          }
+        }
+        document.getElementById('prog').style.width = (n / 3) * 100 + '%';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
-function resetAll(){
-  closeSheets();
-  current=null; maxStep=1;
-  document.getElementById('dni').value="";
-  document.getElementById('dniWrap').classList.remove('err');
-  document.getElementById('dniErr').classList.remove('show');
-  goStep(1);
-}
+      function resetAll() {
+        closeSheets();
+        current = null;
+        maxStep = 1;
+        document.getElementById('dni').value = '';
+        document.getElementById('dniWrap').classList.remove('err');
+        document.getElementById('dniErr').classList.remove('show');
+        goStep(1);
+      }
 
-/* sheets */
-function openSheet(id){ document.getElementById('sheet-'+id).classList.add('show'); document.body.style.overflow='hidden'; }
-function closeSheets(){ document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show')); document.body.style.overflow=''; }
-function toast(msg){
-  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show');
-  clearTimeout(window._tt); window._tt=setTimeout(()=>t.classList.remove('show'),2200);
-}
+      /* sheets */
+      function openSheet(id) {
+        document.getElementById('sheet-' + id).classList.add('show');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeSheets() {
+        document
+          .querySelectorAll('.sheet')
+          .forEach((s) => s.classList.remove('show'));
+        document.body.style.overflow = '';
+      }
+      function toast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window._tt);
+        window._tt = setTimeout(() => t.classList.remove('show'), 2200);
+      }
 
-/* deep-link from QR: #beneficio?dni=N -> reabrir paso 2 */
-function handleHash(){
-  const h=location.hash;
-  const m=h.match(/dni=(\d+)/);
-  if(h.includes('beneficio') && m && DB[m[1]]){
-    current=DB[m[1]];
-    document.getElementById('dni').value=m[1];
-    maxStep=3; fillStep2(current); goStep(2);
-    toast('Beneficio cargado desde el QR ✓');
-  }
-}
+      /* deep-link from QR: #beneficio?dni=N -> reabrir paso 2 */
+      function handleHash() {
+        const h = location.hash;
+        const m = h.match(/dni=(\d+)/);
+        if (h.includes('beneficio') && m && DB[m[1]]) {
+          current = DB[m[1]];
+          document.getElementById('dni').value = m[1];
+          maxStep = 3;
+          fillStep2(current);
+          goStep(2);
+          toast('Beneficio cargado desde el QR ✓');
+        }
+      }
 
-document.getElementById('dni').addEventListener('keydown',e=>{if(e.key==='Enter')consultar()});
-renderChips(); renderFaq(); handleHash();
-window.addEventListener('hashchange',handleHash);
-</script>
-</body>
+      document.getElementById('dni').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') consultar();
+      });
+      renderChips();
+      renderFaq();
+      handleHash();
+      window.addEventListener('hashchange', handleHash);
+    </script>
+  </body>
 </html>
