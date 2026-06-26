@@ -1074,6 +1074,60 @@
           transition: none !important;
         }
       }
+      @media print {
+        .topbar,
+        nav.stepper,
+        .progress-track,
+        #panel1,
+        #panel2,
+        .botnav,
+        .foot,
+        .sheet,
+        .toast,
+        .qr-card .eyebrow,
+        .qr-card > h2,
+        .qr-card > p,
+        .qr-meta,
+        .qr-actions {
+          display: none !important;
+        }
+        html,
+        body {
+          background: #fff !important;
+        }
+        .app {
+          max-width: 100% !important;
+          min-height: unset !important;
+          box-shadow: none !important;
+        }
+        .content {
+          padding: 0 !important;
+        }
+        #panel3 {
+          display: block !important;
+        }
+        .qr-card {
+          box-shadow: none !important;
+          border: none !important;
+          padding: 32px !important;
+          text-align: center;
+        }
+        .qr-frame {
+          border: 2px solid #222 !important;
+          box-shadow: none !important;
+          margin: 0 auto 16px !important;
+        }
+        .qr-name {
+          font-size: 20px !important;
+          font-weight: 700 !important;
+          margin-top: 0 !important;
+        }
+        .qr-sub {
+          font-size: 14px !important;
+          color: #444 !important;
+          margin-top: 6px !important;
+        }
+      }
     </style>
   </head>
   <body>
@@ -1123,7 +1177,7 @@
               opacity=".95"
             />
           </svg>
-          Que tu único esfuerzo sea aprender · Ciclo 2026
+          Ciclo 2026 · Que tu único esfuerzo sea aprender
         </div>
       </header>
 
@@ -1990,7 +2044,9 @@
       function goStep(n, fromTab) {
         if (fromTab && n > maxStep) {
           if (n === 3 && current && MUNI_DIGITAL.includes(current.muni)) {
-            toast('Podés viajar con los medios vigentes, no necesitás generar un QR');
+            toast(
+              'Podés viajar con los medios vigentes, no necesitás generar un QR',
+            );
             return;
           }
           toast('Completá los pasos anteriores primero');
